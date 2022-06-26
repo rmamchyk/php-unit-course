@@ -1,0 +1,18 @@
+{
+    "name": "roman/php-unit-course",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Roman\\PhpUnitCourse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rmamchyk",
+            "email": "roman.mamchyk@gmail.com"
+        }
+    ],
+    "require": {}
+}
