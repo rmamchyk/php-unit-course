@@ -2,8 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-require 'User.php';
-
 class UserTest extends TestCase {
 
     public function testRuturnsFullName() {
