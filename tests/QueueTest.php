@@ -3,28 +3,69 @@
 use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase {
-    public function testNewQueueIsEmpty() {
-        $queue = new Queue();
+    protected $queue;
 
-        $this->assertEquals(0, $queue->getCount());
+    protected function setUp(): void {
+       $this->queue = new Queue();
+    }
+
+    public function testNewQueueIsEmpty() {
+        // Act & Assert
+        $this->assertEquals(0, $this->queue->getCount());
     }
 
     public function testAnItemIsAddedToTheQueue() {
-        $queue = new Queue();
-        
-        $queue->push('green');
+        // Act
+        $this->queue->push('green');
 
-        $this->assertEquals(1, $queue->getCount());
+        // Assert
+        $this->assertEquals(1, $this->queue->getCount());
     }
 
     public function testAnItemIsRemovedFromTheQueue() {
-        $queue = new Queue();
-        
-        $queue->push('green');
+        // Arrange
+        $this->queue->push('green');
 
-        $item = $queue->pop();
+        // Act
+        $item = $this->queue->pop();
 
-        $this->assertEquals(0, $queue->getCount());
+        // Assert
+        $this->assertEquals(0, $this->queue->getCount());
         $this->assertEquals('green', $item);
+    }
+
+    public function testAnItemIsRemovedFromTheFrontOfTheQueue() {
+        // Arrange
+        $this->queue->push('first');
+        $this->queue->push('second');
+
+        // Act
+        $item = $this->queue->pop();
+
+        // Assert
+        $this->assertEquals('first', $item);
+    }
+
+    public function testMaxNumberOfItemsCanBeAdded() {
+        // Arrange
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+            $this->queue->push($i);
+        }
+
+        // Assert
+        $this->assertEquals(Queue::MAX_ITEMS, $this->queue->getCount());
+    }
+
+    public function testExceptionThrownWhenAddingAnItemToAFullQueue() {
+        // Arrange
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+            $this->queue->push($i);
+        }
+
+        // Act & Asssert
+        $this->expectException(QueueException::class);
+        $this->expectExceptionMessage('Queue is full');
+
+        $this->queue->push('water thin mint');
     }
 }
