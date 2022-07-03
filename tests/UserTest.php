@@ -39,6 +39,7 @@ class UserTest extends TestCase {
         $user = new User();
         $user->email = 'dave@example.com';
 
+        /** @var mixed */
         $mockMailer = $this->createMock(Mailer::class);
         $mockMailer->expects($this->once())
             ->method('sendMessage')
@@ -55,6 +56,7 @@ class UserTest extends TestCase {
         // Arrange
         $user = new User();
 
+        /** @var mixed */
         $mockMailer = $this->getMockBuilder(Mailer::class)
             ->setMethods(null)
             ->getMock();
