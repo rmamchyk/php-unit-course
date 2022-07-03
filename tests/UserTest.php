@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserTest extends TestCase {
 
@@ -39,7 +40,7 @@ class UserTest extends TestCase {
         $user = new User();
         $user->email = 'dave@example.com';
 
-        /** @var mixed */
+        /** @var Mailer&MockObject */
         $mockMailer = $this->createMock(Mailer::class);
         $mockMailer->expects($this->once())
             ->method('sendMessage')
@@ -56,7 +57,7 @@ class UserTest extends TestCase {
         // Arrange
         $user = new User();
 
-        /** @var mixed */
+        /** @var Mailer&MockObject */
         $mockMailer = $this->getMockBuilder(Mailer::class)
             ->setMethods(null)
             ->getMock();
