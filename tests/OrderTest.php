@@ -28,6 +28,7 @@ class OrderTest extends TestCase {
     }
 
     public function testOrderIsProcessedUsingMockery() {
+        // Arrange
         /** @var mixed */
         $gateway = Mockery::mock('PaymentGateway');
         $gateway->shouldReceive('charge')
