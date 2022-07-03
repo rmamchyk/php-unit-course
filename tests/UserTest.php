@@ -34,4 +34,36 @@ class UserTest extends TestCase {
         $this->assertEquals('Teresa', $user->firstName);
     }
 
+    public function testNotificationIsSent() {
+        // Arrange
+        $user = new User();
+        $user->email = 'dave@example.com';
+
+        $mockMailer = $this->createMock(Mailer::class);
+        $mockMailer->expects($this->once())
+            ->method('sendMessage')
+            ->with($this->equalTo('dave@example.com'), $this->equalTo('Hello'))
+            ->willReturn(true);
+
+        $user->setMailer($mockMailer);
+        
+        // Act & Assert
+        $this->assertTrue($user->notify('Hello'));
+    }
+
+    public function testCannotNotifyUserWithNoEmail() {
+        // Arrange
+        $user = new User();
+
+        $mockMailer = $this->getMockBuilder(Mailer::class)
+            ->setMethods(null)
+            ->getMock();
+
+        $user->setMailer($mockMailer);
+
+        // Act & Assert
+        $this->expectException(Exception::class);
+        $user->notify('Hello');
+    }
+
 }
